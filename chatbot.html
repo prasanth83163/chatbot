@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Support Chatbot</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .chat-container {
+    width: 380px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    background: #0078ff;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: #f9fafb;
+  }
+  .message {
+    margin: 8px 0;
+    display: flex;
+  }
+  .bot {
+    justify-content: flex-start;
+  }
+  .user {
+    justify-content: flex-end;
+  }
+  .bubble {
+    padding: 10px;
+    border-radius: 12px;
+    max-width: 75%;
+  }
+  .bot .bubble {
+    background: #e5e7eb;
+    color: #111827;
+  }
+  .user .bubble {
+    background: #0078ff;
+    color: white;
+  }
+  .input-area {
+    display: flex;
+    border-top: 1px solid #ddd;
+  }
+  input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+  }
+  button {
+    background: #0078ff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #005fcc;
+  }
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="header">💬 Customer Support</div>
+  <div class="messages" id="chat"></div>
+  <div class="input-area">
+    <input type="text" id="userInput" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+const chatBox = document.getElementById('chat');
+
+function addMessage(sender, text) {
+  const msg = document.createElement('div');
+  msg.className = 'message ' + sender;
+  msg.innerHTML = `<div class="bubble">${text}</div>`;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function botReply(userText) {
+  const text = userText.toLowerCase();
+
+  if (text.includes('hello') || text.includes('hi')) {
+    return 'Hello! 👋 How can I assist you today?';
+  }
+  if (text.includes('order')) {
+    return 'To track your order, please visit the Orders page or share your order ID.';
+  }
+  if (text.includes('refund')) {
+    return 'Our refund policy allows refunds within 14 days of purchase.';
+  }
+  if (text.includes('contact')) {
+    return 'You can contact us at support@example.com or call 1800-555-555.';
+  }
+  if (text.includes('thank')) {
+    return 'You’re welcome! 😊 Anything else I can help with?';
+  }
+
+  return 'Sorry, I’m not sure about that. You can contact support@example.com for more help.';
+}
+
+function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (text === '') return;
+
+  addMessage('user', text);
+  input.value = '';
+
+  setTimeout(() => {
+    const reply = botReply(text);
+    addMessage('bot', reply);
+  }, 500);
+}
+
+// initial greeting
+addMessage('bot', 'Hi there! I’m your support assistant. How can I help you today?');
+</script>
+
+</body>
+</html>
